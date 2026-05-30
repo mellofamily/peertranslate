@@ -5,108 +5,230 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peer Translate</title>
     <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131a26;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --border-color: #1e293b;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
         }
-        .container {
-            max-width: 500px;
+
+        .main-content {
+            max-width: 1000px;
+            width: 100%;
             margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+
+        .brand-header {
+            margin-bottom: 50px;
+        }
+
+        .app-icon-placeholder {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            border-radius: 18px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
         h1 {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: #222;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin: 0;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .section {
-            display: none; /* Hidden by default, shown by JS */
-            margin-bottom: 30px;
+
+        /* Side-by-Side Flex Layout */
+        .split-grid {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            align-items: stretch;
+            margin-top: 20px;
         }
-        .step {
-            background: #f9f9f9;
-            border-left: 4px solid #4285F4;
-            padding: 15px;
+
+        .platform-card {
+            flex: 1;
+            max-width: 460px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: none; /* Controlled via JS */
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-4px);
+            border-color: #334155;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #f8fafc;
+        }
+
+        .step-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            padding: 20px;
             margin-bottom: 20px;
             text-align: left;
-            border-radius: 0 8px 8px 0;
+            border-radius: 16px;
         }
-        .step h2 {
-            font-size: 18px;
-            margin: 0 0 10px 0;
-        }
-        .step p {
-            font-size: 14px;
-            color: #555;
-            margin: 0 0 15px 0;
-        }
-        a.button {
-            display: inline-block;
-            width: 100%;
-            padding: 14px 20px;
+
+        .step-box h2 {
             font-size: 16px;
-            font-weight: bold;
-            color: #fff;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: var(--accent-blue);
+        }
+
+        .step-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0 0 16px 0;
+            line-height: 1.5;
+        }
+
+        /* Universal Premium Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 14px;
             box-sizing: border-box;
-            transition: opacity 0.2s;
+            transition: filter 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
         }
-        a.button:hover {
-            opacity: 0.9;
+
+        .btn:active {
+            transform: scale(0.98);
         }
+
+        .btn:hover {
+            filter: brightness(1.15);
+        }
+
         .btn-apple {
-            background-color: #000;
+            background: #ffffff;
+            color: #000000;
         }
-        .btn-google {
-            background-color: #4285F4;
+
+        .btn-google-group {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
         }
+
         .btn-play {
-            background-color: #0F9D58;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            box-shadow: 0 4px 14px rgba(3, 105, 161, 0.4);
         }
+
         .footer {
-            margin-top: 40px;
+            margin-top: 60px;
             font-size: 14px;
         }
+
         .footer a {
-            color: #666;
-            text-decoration: underline;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive Mobile Breakpoint */
+        @media (max-width: 768px) {
+            .split-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .platform-card {
+                width: 100%;
+            }
+            body {
+                padding: 40px 16px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 id="page-title">Get Peer Translate</h1>
-
-    <div id="ios-section" class="section">
-        <a href="https://apps.apple.com/app/6774512352" id="ios-btn" class="button btn-apple">
-            Download on the App Store
-        </a>
+<div class="main-content">
+    <div class="brand-header">
+        <!-- Temporary emoji visual placeholder until your logo updates dynamically -->
+        <div class="app-icon-placeholder">文</div>
+        <h1 id="page-title">Get Peer Translate</h1>
     </div>
 
-    <div id="android-section" class="section">
-        <div class="step">
-            <h2 id="android-step1">Step 1: Join the Testers Group</h2>
-            <p id="android-desc1">To access the closed testing version, you must first join our Google Group.</p>
-            <a href="https://groups.google.com/g/peer-translate" id="group-btn" class="button btn-google" target="_blank">
-                Join Google Group
+    <div class="split-grid">
+        <!-- iOS Module Grid Panel -->
+        <div id="ios-section" class="platform-card">
+            <div class="card-title">iOS Deployment</div>
+            <a href="https://apps.apple.com/app/6774512352" id="ios-btn" class="btn btn-apple">
+                Download on the App Store
             </a>
         </div>
 
-        <div class="step">
-            <h2 id="android-step2">Step 2: Download the App</h2>
-            <p id="android-desc2">Once joined, you can download the app from the Play Store.</p>
-            <a href="https://play.google.com/apps/testing/com.peertranslate.PeerTranslate" id="play-btn" class="button btn-play" target="_blank">
-                Download on Google Play
-            </a>
+        <!-- Android Module Grid Panel -->
+        <div id="android-section" class="platform-card">
+            <div class="card-title">Android Beta Platform</div>
+            
+            <div class="step-box">
+                <h2 id="android-step1">Step 1: Join the Testers Group</h2>
+                <p id="android-desc1">To access the closed testing version, you must first join our Google Group.</p>
+                <a href="https://groups.google.com/g/peer-translate" id="group-btn" class="btn btn-google-group" target="_blank">
+                    Join Google Group
+                </a>
+            </div>
+
+            <div class="step-box">
+                <h2 id="android-step2">Step 2: Download the App</h2>
+                <p id="android-desc2">Once joined, you can download the app from the Play Store.</p>
+                <a href="https://play.google.com/apps/testing/com.peertranslate.PeerTranslate" id="play-btn" class="btn btn-play" target="_blank">
+                    Download on Google Play
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -116,22 +238,25 @@
 </div>
 
 <script>
-    // 1. Detect OS
+    // 1. Client OS Evaluation Pipeline
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
     const isAndroid = /android/i.test(userAgent);
 
+    const iosEl = document.getElementById('ios-section');
+    const androidEl = document.getElementById('android-section');
+
     if (isIOS) {
-        document.getElementById('ios-section').style.display = 'block';
+        iosEl.style.display = 'flex';
     } else if (isAndroid) {
-        document.getElementById('android-section').style.display = 'block';
+        androidEl.style.display = 'flex';
     } else {
-        // Desktop or other: Show both
-        document.getElementById('ios-section').style.display = 'block';
-        document.getElementById('android-section').style.display = 'block';
+        // Desktop Viewport: Split Layout Pipeline Active
+        iosEl.style.display = 'flex';
+        androidEl.style.display = 'flex';
     }
 
-    // 2. Detect Language
+    // 2. Client System Language Parsing Pipeline
     const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
     let langKey = 'multi'; 
 
@@ -143,7 +268,7 @@
         langKey = 'pl';
     }
 
-    // 3. Translations Dictionary
+    // 3. Dynamic Dictionary Key Matrix
     const translations = {
         en: {
             title: "Get Peer Translate",
@@ -179,19 +304,19 @@
             privacy: "Polityka prywatności"
         },
         multi: {
-            title: "Get Peer Translate<br>Obter Peer Translate<br>Pobierz Peer Translate",
-            iosBtn: "Download on the App Store<br>(Baixar / Pobierz)",
-            androidStep1: "Step 1 / Passo 1 / Krok 1",
-            androidDesc1: "Join the Google Group / Entrar no Grupo / Dołącz do grupy Google",
+            title: "Get Peer Translate",
+            iosBtn: "Download on the App Store",
+            androidStep1: "Step 1 / Passo 1",
+            androidDesc1: "Join Google Group / Entrar no Grupo",
             groupBtn: "Google Group",
-            androidStep2: "Step 2 / Passo 2 / Krok 2",
-            androidDesc2: "Download the App / Baixar o Aplicativo / Pobierz aplikację",
+            androidStep2: "Step 2 / Passo 2",
+            androidDesc2: "Download App / Baixar o Aplicativo",
             playBtn: "Google Play",
-            privacy: "Privacy Policy / Política de Privacidade / Polityka prywatności"
+            privacy: "Privacy Policy / Política de Privacidade"
         }
     };
 
-    // 4. Apply Translations
+    // 4. Client Interpolation Pipeline
     const t = translations[langKey];
     document.getElementById('page-title').innerHTML = t.title;
     document.getElementById('ios-btn').innerHTML = t.iosBtn;
