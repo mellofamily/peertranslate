@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Translate</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #222;
+        }
+        .section {
+            display: none; /* Hidden by default, shown by JS */
+            margin-bottom: 30px;
+        }
+        .step {
+            background: #f9f9f9;
+            border-left: 4px solid #4285F4;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+        }
+        .step h2 {
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+        .step p {
+            font-size: 14px;
+            color: #555;
+            margin: 0 0 15px 0;
+        }
+        a.button {
+            display: inline-block;
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: opacity 0.2s;
+        }
+        a.button:hover {
+            opacity: 0.9;
+        }
+        .btn-apple {
+            background-color: #000;
+        }
+        .btn-google {
+            background-color: #4285F4;
+        }
+        .btn-play {
+            background-color: #0F9D58;
+        }
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #666;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="page-title">Get Peer Translate</h1>
+
+    <div id="ios-section" class="section">
+        <a href="https://apps.apple.com/app/6774512352" id="ios-btn" class="button btn-apple">
+            Download on the App Store
+        </a>
+    </div>
+
+    <div id="android-section" class="section">
+        <div class="step">
+            <h2 id="android-step1">Step 1: Join the Testers Group</h2>
+            <p id="android-desc1">To access the closed testing version, you must first join our Google Group.</p>
+            <a href="https://groups.google.com/g/peer-translate" id="group-btn" class="button btn-google" target="_blank">
+                Join Google Group
+            </a>
+        </div>
+
+        <div class="step">
+            <h2 id="android-step2">Step 2: Download the App</h2>
+            <p id="android-desc2">Once joined, you can download the app from the Play Store.</p>
+            <a href="https://play.google.com/apps/testing/com.peertranslate.PeerTranslate" id="play-btn" class="button btn-play" target="_blank">
+                Download on Google Play
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <a href="PRIVACY_POLICY.html" id="privacy-link">Privacy Policy</a>
+</div>
+
+<script>
+    // 1. Detect OS
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /android/i.test(userAgent);
+
+    if (isIOS) {
+        document.getElementById('ios-section').style.display = 'block';
+    } else if (isAndroid) {
+        document.getElementById('android-section').style.display = 'block';
+    } else {
+        // Desktop or other: Show both
+        document.getElementById('ios-section').style.display = 'block';
+        document.getElementById('android-section').style.display = 'block';
+    }
+
+    // 2. Detect Language
+    const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+    let langKey = 'multi'; 
+
+    if (browserLang.startsWith('en')) {
+        langKey = 'en';
+    } else if (browserLang.startsWith('pt')) {
+        langKey = 'pt';
+    } else if (browserLang.startsWith('pl')) {
+        langKey = 'pl';
+    }
+
+    // 3. Translations Dictionary
+    const translations = {
+        en: {
+            title: "Get Peer Translate",
+            iosBtn: "Download on the App Store",
+            androidStep1: "Step 1: Join the Testers Group",
+            androidDesc1: "To access the closed testing version, you must first join our Google Group.",
+            groupBtn: "Join Google Group",
+            androidStep2: "Step 2: Download the App",
+            androidDesc2: "Once joined, you can download the app from the Play Store.",
+            playBtn: "Download on Google Play",
+            privacy: "Privacy Policy"
+        },
+        pt: {
+            title: "Obter Peer Translate",
+            iosBtn: "Baixar na App Store",
+            androidStep1: "Passo 1: Participar do Grupo de Testes",
+            androidDesc1: "Para acessar a versão de teste fechado, você deve primeiro entrar no nosso Grupo do Google.",
+            groupBtn: "Entrar no Grupo do Google",
+            androidStep2: "Passo 2: Baixar o Aplicativo",
+            androidDesc2: "Após entrar no grupo, você pode baixar o aplicativo na Play Store.",
+            playBtn: "Baixar no Google Play",
+            privacy: "Política de Privacidade"
+        },
+        pl: {
+            title: "Pobierz Peer Translate",
+            iosBtn: "Pobierz w App Store",
+            androidStep1: "Krok 1: Dołącz do grupy testerów",
+            androidDesc1: "Aby uzyskać dostęp do zamkniętych testów, musisz najpierw dołączyć do naszej grupy Google.",
+            groupBtn: "Dołącz do grupy Google",
+            androidStep2: "Krok 2: Pobierz aplikację",
+            androidDesc2: "Po dołączeniu możesz pobrać aplikację z Google Play.",
+            playBtn: "Pobierz z Google Play",
+            privacy: "Polityka prywatności"
+        },
+        multi: {
+            title: "Get Peer Translate<br>Obter Peer Translate<br>Pobierz Peer Translate",
+            iosBtn: "Download on the App Store<br>(Baixar / Pobierz)",
+            androidStep1: "Step 1 / Passo 1 / Krok 1",
+            androidDesc1: "Join the Google Group / Entrar no Grupo / Dołącz do grupy Google",
+            groupBtn: "Google Group",
+            androidStep2: "Step 2 / Passo 2 / Krok 2",
+            androidDesc2: "Download the App / Baixar o Aplicativo / Pobierz aplikację",
+            playBtn: "Google Play",
+            privacy: "Privacy Policy / Política de Privacidade / Polityka prywatności"
+        }
+    };
+
+    // 4. Apply Translations
+    const t = translations[langKey];
+    document.getElementById('page-title').innerHTML = t.title;
+    document.getElementById('ios-btn').innerHTML = t.iosBtn;
+    document.getElementById('android-step1').innerHTML = t.androidStep1;
+    document.getElementById('android-desc1').innerHTML = t.androidDesc1;
+    document.getElementById('group-btn').innerHTML = t.groupBtn;
+    document.getElementById('android-step2').innerHTML = t.androidStep2;
+    document.getElementById('android-desc2').innerHTML = t.androidDesc2;
+    document.getElementById('play-btn').innerHTML = t.playBtn;
+    document.getElementById('privacy-link').innerHTML = t.privacy;
+</script>
+
+</body>
+</html>
